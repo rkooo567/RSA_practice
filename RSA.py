@@ -1,38 +1,7 @@
 # file to implement RSA
 
 from fractions import gcd
-
-# util function
-def is_prime(n):
-	""" calculate prime number
-	>>> is_prime(4)
-	False
-	>>> is_prime(7)
-	True
-	>>> is_prime(17)
-	True
-	>>> is_prime(23)
-	True
-	>>> is_prime(60)
-	False
-	>>> is_prime(93)
-	True
-	"""
-	if n % 2 == 0:
-		return False
-	else:
-		for i in range(3, n // 2 + 1):
-			if n // i == 0:
-				return False
-		return True
-
-def char_to_binary(chr):
-	""" change char to binary"""
-	return int(bin(ord(chr)), 2)
-
-def binary_to_chr(binary_char):
-	""" convert binary list to the string"""
-	return bin(binary_char)
+from util.util_functions import is_prime, char_to_binary, binary_to_char
 
 # functions for decoding and encoding
 def encoding(public_key, message):
@@ -100,9 +69,11 @@ class Rsa(object):
 
 	def get_public_key(self):
 		""" return the tuple, public key"""
+		assert self.e != None, "e has not been chosen" 
 		return self.public_key
 
 	def get_private_key(self):
+		assert self.e != None, "e has not been chosen" 
 		return self.private_key
 
 
