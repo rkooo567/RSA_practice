@@ -1,7 +1,7 @@
 # file to implement RSA
 
 from fractions import gcd
-from util.util_functions import is_prime, char_to_binary, binary_to_char
+from util.util_functions import is_prime, char_to_binary, binary_to_char, egcd, multiplicative_inverse
 
 # functions for decoding and encoding
 def encoding(public_key, message):
@@ -18,13 +18,15 @@ class Rsa(object):
 	"""
 	Implement RSA cryptography algorithm for pratices.
 	"""
-	def __init__(self, p, q, e=None):
+	def __init__(self, user_name, p, q, e=None):
 		"""
 		determine the value N in x^e (mod N)
 		p ,q : prime numbers
 		e : relatively prime to (p-1)*(q-1)
 		"""
+		assert is_prime(p) and is_prime(q), "p and q have to be prime numbers"
 		assert e == None or gcd((p-1)*(q-1), e) == 1, "e has to be coprime to (p-1)(q-1)"
+		self.user_name = user_name
 		self.p = p # prime p
 		self.q = q # prime q
 		self.n = self.p * self.q # N
@@ -60,12 +62,7 @@ class Rsa(object):
 		if e == None:
 			return None
 		else:
-			d = 2
-			while True:
-				if (e * d) % self.p_1_q_1 == 1:
-					return d # if d satisfies ed = 1 mod ((p-1)(q-1)), d is the return value
-				else:
-					d += 1
+			return multiplicative_inverse(self.e, self.p_1_q_1)
 
 	def get_public_key(self):
 		""" return the tuple, public key"""
