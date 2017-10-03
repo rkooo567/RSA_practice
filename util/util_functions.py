@@ -1,5 +1,7 @@
 # util function
 
+from fractions import gcd
+
 def is_prime(n):
 	""" calculate prime number
 	>>> is_prime(4)
@@ -30,3 +32,32 @@ def char_to_binary(chr):
 def binary_to_char(binary_char):
 	""" convert binary list to the string"""
 	return bin(binary_char)
+
+def egcd(x, y):
+	""" 
+	return (d, a, b) a*x + b*y = gcd(x, y) := d 
+	
+	>>> egcd(16, 10)
+	(2, 2, -3)
+
+	"""
+	if y == 0:
+		return (x, 1, 0)
+	else:
+		d, a, b = egcd(y, x % y)
+		return d, b, (a - (x // y) * b)
+
+def multiplicative_inverse(a, m):
+	""" 
+	find multiplicative inverse of a mod m
+	
+	>>> multiplicative_inverse(2, 5)
+	3
+	>>> multiplicative_inverse(1, 6)
+	1
+	>>> multiplicative_inverse(-1, 6)
+	5
+	>>> multiplicative_inverse(9, 10)
+	9
+	"""
+	return egcd(a, m)[1] % m
