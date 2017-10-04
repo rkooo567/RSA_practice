@@ -1,4 +1,4 @@
-from rsa import Rsa, encoding, decoding
+from RSA import Rsa, encoding, decoding
 
 def main():
 	""" application """
